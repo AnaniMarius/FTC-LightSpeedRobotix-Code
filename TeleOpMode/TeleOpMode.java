@@ -41,6 +41,13 @@ public class TeleOpMode extends LinearOpMode {
         MotorColectare = hardwareMap.get(DcMotor.class, "MC");
         trapa = hardwareMap.get(Servo.class, "Trapa");
 
+        MotorStangaFata.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        MotorDreaptaFata.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        MotorStangaSpate.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        MotorDreaptaSpate.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        MotorStangaBrat.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        MotorDreaptaBrat.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        MotorColectare.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
         MotorStangaFata.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         MotorDreaptaFata.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -101,8 +108,13 @@ public class TeleOpMode extends LinearOpMode {
                 {
                     prindere=false;
                 }
-                MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
-                MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
+                //Trebuie sa verific mai intai in ce directie merge, cu ce tick-uri si cu ce putere pentru a urca usor robotul.
+                MotorDreaptaBrat.setTargetPosition(3000);
+                MotorStangaBrat.setTargetPosition(3000);
+                MotorDreaptaBrat.setPower(0.5);
+                MotorStangaBrat.setPower(0.5);
+                //MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE); le tin in comentariu pentru a vedea daca este nevoie sa le franez acolo, sau se franeaza singure de la targetPosition
+                //MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
                 /*MotorStangaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 MotorDreaptaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION));*/
             }
