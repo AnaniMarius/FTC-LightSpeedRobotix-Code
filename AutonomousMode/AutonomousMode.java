@@ -72,7 +72,7 @@ public class AutonomousMode extends LinearOpMode {
         MotorColectare.setPower(0);
         trapa.setPosition(0);
 
-        //*********ori asta, ori cea de jos dupa start trebuie stearsa
+        //*********ori asta, ori cea de jos dupa start trebuie stearsa, ori chiar pus mai sus inainte de runOpMode
         MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE); //tin bratul blocat
         MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
 
@@ -90,9 +90,17 @@ public class AutonomousMode extends LinearOpMode {
         //Trebuie sa verific mai intai in ce directie merge, cu ce tick-uri si cu ce putere pentru a cobora usor robotul.
         MotorDreaptaBrat.setTargetPosition(-3000);
         MotorStangaBrat.setTargetPosition(-3000);
+        MotorStangaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        MotorDreaptaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         MotorDreaptaBrat.setPower(0.5);
         MotorStangaBrat.setPower(0.5);
+        while(MotorStangaBrat.isBusy() && MotorDreaptaBrat.isBusy())
+        {
+            //asteptam sa ajunga la destinatie
+        }
+
          */
+        //posibil ca ce e in comentariu mai sus sa fie implementat dupa testari
 
         while (getRuntime() < 2){} // il lasam sa cada 2 secunde
 

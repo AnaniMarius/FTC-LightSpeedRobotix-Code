@@ -111,8 +111,16 @@ public class TeleOpMode extends LinearOpMode {
                 //Trebuie sa verific mai intai in ce directie merge, cu ce tick-uri si cu ce putere pentru a urca usor robotul.
                 MotorDreaptaBrat.setTargetPosition(3000);
                 MotorStangaBrat.setTargetPosition(3000);
+                MotorStangaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                MotorDreaptaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 MotorDreaptaBrat.setPower(0.5);
                 MotorStangaBrat.setPower(0.5);
+                while(MotorStangaBrat.isBusy() && MotorDreaptaBrat.isBusy())
+                {
+                    //asteptam sa ajunga la destinatie
+                }
+                MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE); //aplic o frana, just in case;
+                MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
                 //MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE); le tin in comentariu pentru a vedea daca este nevoie sa le franez acolo, sau se franeaza singure de la targetPosition
                 //MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
                 /*MotorStangaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION);
