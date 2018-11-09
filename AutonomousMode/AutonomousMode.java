@@ -22,8 +22,6 @@ public class AutonomousMode extends LinearOpMode {
     private DcMotor MotorColectare = null;
     private Servo trapa = null;
 
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() {
@@ -38,13 +36,13 @@ public class AutonomousMode extends LinearOpMode {
         MotorColectare = hardwareMap.get(DcMotor.class, "MC");
         trapa = hardwareMap.get(Servo.class, "Trapa");
 
-        MotorStangaFata.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorDreaptaFata.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorStangaSpate.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorDreaptaSpate.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorStangaBrat.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorDreaptaBrat.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorColectare.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        MotorStangaFata.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorDreaptaFata.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorStangaSpate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorDreaptaSpate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorStangaBrat.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorDreaptaBrat.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorColectare.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         MotorStangaFata.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         MotorDreaptaFata.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -73,8 +71,8 @@ public class AutonomousMode extends LinearOpMode {
         trapa.setPosition(0);
 
         //*********ori asta, ori cea de jos dupa start trebuie stearsa, ori chiar pus mai sus inainte de runOpMode
-        MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE); //tin bratul blocat
-        MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
+        MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //tin bratul blocat
+        MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         trapa.setPosition(0);  // tine marker-ul
         MotorDreaptaBrat.setPower(-.6); // tinem bratul in tensiune pentru a nu se tranti de pamant
@@ -83,8 +81,8 @@ public class AutonomousMode extends LinearOpMode {
         runtime.reset();
 
         //**********
-        MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE); //tin bratul blocat
-        MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
+        MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //tin bratul blocat
+        MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*
         //Trebuie sa verific mai intai in ce directie merge, cu ce tick-uri si cu ce putere pentru a cobora usor robotul.

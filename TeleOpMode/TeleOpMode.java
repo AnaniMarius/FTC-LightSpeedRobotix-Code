@@ -1,26 +1,25 @@
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="TeleOPmode Liniar", group="Linear Opmode")
+@TeleOp(name="TeleOPmode", group="Linear Opmode")
 //@Disabled
 public class TeleOpMode extends LinearOpMode {
 
     // Declaram componentele robotului.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor MotorStangaFata = null;
-    private DcMotor MotorDreaptaFata = null;
-    private DcMotor MotorStangaSpate = null;
-    private DcMotor MotorDreaptaSpate = null;
-    private DcMotor MotorDreaptaBrat = null;
-    private DcMotor MotorStangaBrat = null;
-    private DcMotor MotorColectare = null;
-    private Servo trapa = null;
+     ElapsedTime runtime = new ElapsedTime();
+     DcMotor MotorStangaFata = null;
+     DcMotor MotorDreaptaFata = null;
+     DcMotor MotorStangaSpate = null;
+     DcMotor MotorDreaptaSpate = null;
+     DcMotor MotorDreaptaBrat = null;
+     DcMotor MotorStangaBrat = null;
+     DcMotor MotorColectare = null;
+     Servo trapa = null;
 	//declaram variabilele prin care motoarele o sa primeasca impulsuri. Sunt folosite in while-ul cel mai jos
     double leftPower;
     double rightPower;
@@ -41,13 +40,13 @@ public class TeleOpMode extends LinearOpMode {
         MotorColectare = hardwareMap.get(DcMotor.class, "MC");
         trapa = hardwareMap.get(Servo.class, "Trapa");
 
-        MotorStangaFata.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorDreaptaFata.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorStangaSpate.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorDreaptaSpate.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorStangaBrat.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorDreaptaBrat.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        MotorColectare.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        MotorStangaFata.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorDreaptaFata.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorStangaSpate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorDreaptaSpate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorStangaBrat.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorDreaptaBrat.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MotorColectare.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         MotorStangaFata.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         MotorDreaptaFata.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -90,7 +89,7 @@ public class TeleOpMode extends LinearOpMode {
             MotorStangaFata.setPower(leftPower);
             MotorDreaptaFata.setPower(rightPower);
             MotorStangaSpate.setPower(leftPower);
-            MotorDreataSpate.setPower(rightPower);
+            MotorDreaptaSpate.setPower(rightPower);
             MotorColectare.setPower(-gamepad2.left_stick_y);
             MotorDreaptaBrat.setPower(-gamepad2.right_stick_y);
             MotorStangaBrat.setPower(-gamepad2.right_stick_y);
@@ -98,8 +97,8 @@ public class TeleOpMode extends LinearOpMode {
             if(gamepad2.a)
             {
                 prindere=true;
-                MotorStangaBrat.setMode(DcMotor.RunMode.RESET_ENCODERS);
-                MotorDreaptaBrat.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                MotorStangaBrat.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                MotorDreaptaBrat.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
 
             while(prindere)
@@ -109,6 +108,10 @@ public class TeleOpMode extends LinearOpMode {
                     prindere=false;
                 }
                 //Trebuie sa verific mai intai in ce directie merge, cu ce tick-uri si cu ce putere pentru a urca usor robotul.
+                //circumferinta=diametrul*pi | diametrul rotii~12cm | motorul are 1440 tick-uri | 37.70 cm are o rotatie completa
+                //circumferinta=37.70 cm
+                //fiecare tick are 0.02618 cm (circumferinta/1440)
+
                 MotorDreaptaBrat.setTargetPosition(3000);
                 MotorStangaBrat.setTargetPosition(3000);
                 MotorStangaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -119,8 +122,8 @@ public class TeleOpMode extends LinearOpMode {
                 {
                     //asteptam sa ajunga la destinatie
                 }
-                MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE); //aplic o frana, just in case;
-                MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
+                MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //aplic o frana, just in case;
+                MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 //MotorStangaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE); le tin in comentariu pentru a vedea daca este nevoie sa le franez acolo, sau se franeaza singure de la targetPosition
                 //MotorDreaptaBrat.setZeroPowerBehavior(DcMotor.ZeroBehavior.BRAKE);
                 /*MotorStangaBrat.setMode(DcMotor.RunMode.RUN_TO_POSITION);
