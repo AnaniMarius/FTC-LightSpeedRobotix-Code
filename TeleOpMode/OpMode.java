@@ -29,26 +29,31 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
 @TeleOp(name="OpMode", group="Linear Opmode")
-@Disabled
+//@Disabled
 public class OpMode extends LinearOpMode {
 
 
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor RoataStanga = null;
-    private DcMotor RoataDreapta = null;
+    private DcMotor RoataStangaFata = null;
+    private DcMotor RoataStangaSpate = null;
+    private DcMotor RoataDreaptaFata = null;
+    private DcMotor RoataDreaptaSpate = null;
     private DcMotor Brat = null;
-    private CRServo PinionDreapta = null;
-    private CRServo PinionStanga = null;
+    private CRServo Glisiera = null;
+    private CRServo ColectareStanga = null;
+    private CRServo ColectareDreapta = null;
+    private Servo Cupa = null;
+    //private Servo PinionTrapa = null;
 
     //int cupa=0;
 
@@ -58,22 +63,30 @@ public class OpMode extends LinearOpMode {
         telemetry.update();
 
 
-        RoataStanga  = hardwareMap.get(DcMotor.class, "Stanga");
-        RoataDreapta = hardwareMap.get(DcMotor.class, "Dreapta");
+        RoataStangaFata = hardwareMap.get(DcMotor.class, "StangaFata");
+        RoataStangaSpate = hardwareMap.get(DcMotor.class, "StangaSpate");
+        RoataDreaptaFata = hardwareMap.get(DcMotor.class, "DreaptaFata");
+        RoataDreaptaSpate = hardwareMap.get(DcMotor.class, "DreaptaSpate");
         Brat = hardwareMap.get(DcMotor.class, "Brat");
-        PinionDreapta = hardwareMap.get(CRServo.class, "PinionDreapta");
-        PinionStanga = hardwareMap.get(CRServo.class, "PinionStanga");
+        Glisiera = hardwareMap.get(CRServo.class, "PinionGlisiera");
+        ColectareDreapta = hardwareMap.get(CRServo.class, "ColectareDreapta");
+        ColectareStanga = hardwareMap.get(CRServo.class, "ColectareStanga");
+        Cupa = hardwareMap.get(Servo.class, "Cupa");
+        //PinionTrapa = hardwareMap.get(Servo.class, "PinionTrapa");
 
-        RoataStanga.setDirection(DcMotor.Direction.FORWARD);
-        RoataDreapta.setDirection(DcMotor.Direction.REVERSE);
+        RoataStangaFata.setDirection(DcMotor.Direction.FORWARD);
+        RoataStangaSpate.setDirection(DcMotor.Direction.FORWARD);
+        RoataDreaptaFata.setDirection(DcMotor.Direction.REVERSE);
+        RoataDreaptaSpate.setDirection(DcMotor.Direction.REVERSE);
         Brat.setDirection(DcMotor.Direction.FORWARD);
 
-        RoataStanga.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RoataDreapta.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         Brat.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        RoataStanga.setPower(0);
-        RoataDreapta.setPower(0);
+        RoataStangaFata.setPower(0);
+        RoataStangaSpate.setPower(0);
+        RoataDreaptaFata.setPower(0);
+        RoataDreaptaSpate.setPower(0);
         Brat.setPower(0);
 
         waitForStart();
@@ -84,40 +97,69 @@ public class OpMode extends LinearOpMode {
 
 
             double PutereStanga=gamepad1.left_stick_y;
-            double PutereDreapta=-gamepad1.right_stick_y;
+            double PutereDreapta=gamepad1.right_stick_y;
             double PutereBrat=-gamepad2.right_stick_y;
-            double PozitieDreapta=RoataDreapta.getCurrentPosition();
             double PozitieBrat=Brat.getCurrentPosition();
 
 
-            RoataDreapta.setPower(PutereDreapta);
-            RoataStanga.setPower(PutereStanga);
+            RoataDreaptaFata.setPower(PutereDreapta);
+            RoataDreaptaSpate.setPower(PutereDreapta);
+            RoataStangaFata.setPower(PutereStanga);
+            RoataStangaSpate.setPower(PutereStanga);
             Brat.setPower(PutereBrat);
 
-            /*if(gamepad2.b)
-                cupa=1;
-            if(gamepad2.y)
-                cupa=0;
-            if(gamepad2.x)
-                cupa=-1;
-            */
             if(gamepad2.b)
             {
-                PinionDreapta.setPower(1);
-                PinionStanga.setPower(-1);
+                ColectareStanga.setPower(-1);
+                ColectareDreapta.setPower(1);
             }
             if(gamepad2.y)
             {
-                PinionDreapta.setPower(-1);
-                PinionStanga.setPower(1);
+                ColectareStanga.setPower(1);
+                ColectareDreapta.setPower(-1);
             }
             if(gamepad2.x)
             {
-                PinionDreapta.setPower(0);
-                PinionStanga.setPower(0);
+                ColectareStanga.setPower(0);
+                ColectareDreapta.setPower(0);
             }
 
+
+            if(gamepad2.dpad_down)
+            {
+                Glisiera.setPower(1);
+            }
+            if(gamepad2.dpad_up)
+            {
+                Glisiera.setPower(-1);
+            }
+            if(gamepad2.dpad_left)
+            {
+                Glisiera.setPower(0);
+            }
+
+
+            if(gamepad1.y)
+            {
+                Cupa.setPosition(1);
+            }
             if(gamepad1.a)
+            {
+                Cupa.setPosition(-1);
+            }
+
+
+
+            /*if(gamepad2.x)
+            {
+                PinionTrapa.setPosition(.7);
+            }
+            if(gamepad2.y)
+            {
+                PinionTrapa.setPosition(.2);
+            }*/
+
+            /*if(gamepad1.a)
             {
                 RoataDreapta.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 RoataStanga.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -135,7 +177,7 @@ public class OpMode extends LinearOpMode {
                 {
                     //Asteptam sa ajunga la pozitie
                 }
-            }
+            }*/
 
 
             while(gamepad2.left_bumper)
@@ -148,7 +190,6 @@ public class OpMode extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Roti", "stanga (%.2f), dreapta (%.2f)", PutereStanga, PutereDreapta);
             telemetry.addData("Brat", "putere (%.2f)", PutereBrat);
-            telemetry.addData("EncoderRoti",PozitieDreapta);
             telemetry.addData("EncoderBrat",PozitieBrat);
             telemetry.update();
         }
