@@ -31,11 +31,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="OpMode", group="Linear Opmode")
@@ -49,10 +47,6 @@ public class OpMode extends LinearOpMode {
     private DcMotor RoataDreaptaFata = null;
     private DcMotor RoataDreaptaSpate = null;
     private DcMotor Brat = null;
-    private CRServo Glisiera = null;
-    private CRServo ColectareStanga = null;
-    private CRServo ColectareDreapta = null;
-    private Servo Cupa = null;
     //private Servo PinionTrapa = null;
 
     //int cupa=0;
@@ -68,10 +62,6 @@ public class OpMode extends LinearOpMode {
         RoataDreaptaFata = hardwareMap.get(DcMotor.class, "DreaptaFata");
         RoataDreaptaSpate = hardwareMap.get(DcMotor.class, "DreaptaSpate");
         Brat = hardwareMap.get(DcMotor.class, "Brat");
-        Glisiera = hardwareMap.get(CRServo.class, "PinionGlisiera");
-        ColectareDreapta = hardwareMap.get(CRServo.class, "ColectareDreapta");
-        ColectareStanga = hardwareMap.get(CRServo.class, "ColectareStanga");
-        Cupa = hardwareMap.get(Servo.class, "Cupa");
         //PinionTrapa = hardwareMap.get(Servo.class, "PinionTrapa");
 
         RoataStangaFata.setDirection(DcMotor.Direction.FORWARD);
@@ -99,54 +89,17 @@ public class OpMode extends LinearOpMode {
             double PutereStanga=gamepad1.left_stick_y;
             double PutereDreapta=gamepad1.right_stick_y;
             double PutereBrat=-gamepad2.right_stick_y;
-            double PozitieBrat=Brat.getCurrentPosition();
+            float PozitieBrat=Brat.getCurrentPosition();
 
 
-            RoataDreaptaFata.setPower(PutereDreapta);
-            RoataDreaptaSpate.setPower(PutereDreapta);
-            RoataStangaFata.setPower(PutereStanga);
-            RoataStangaSpate.setPower(PutereStanga);
+            RoataDreaptaFata.setPower(PutereStanga);
+            RoataDreaptaSpate.setPower(PutereStanga);
+            RoataStangaFata.setPower(PutereDreapta);
+            RoataStangaSpate.setPower(PutereDreapta);
+            PutereBrat=Range.clip(PutereBrat, -.1,.3);
             Brat.setPower(PutereBrat);
 
-            if(gamepad2.b)
-            {
-                ColectareStanga.setPower(-1);
-                ColectareDreapta.setPower(1);
-            }
-            if(gamepad2.y)
-            {
-                ColectareStanga.setPower(1);
-                ColectareDreapta.setPower(-1);
-            }
-            if(gamepad2.x)
-            {
-                ColectareStanga.setPower(0);
-                ColectareDreapta.setPower(0);
-            }
 
-
-            if(gamepad2.dpad_down)
-            {
-                Glisiera.setPower(1);
-            }
-            if(gamepad2.dpad_up)
-            {
-                Glisiera.setPower(-1);
-            }
-            if(gamepad2.dpad_left)
-            {
-                Glisiera.setPower(0);
-            }
-
-
-            if(gamepad1.y)
-            {
-                Cupa.setPosition(1);
-            }
-            if(gamepad1.a)
-            {
-                Cupa.setPosition(-1);
-            }
 
 
 
@@ -180,7 +133,7 @@ public class OpMode extends LinearOpMode {
             }*/
 
 
-            while(gamepad2.left_bumper)
+            while(gamepad2.a)
             {
                 Brat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
