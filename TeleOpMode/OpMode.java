@@ -32,8 +32,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="OpMode", group="Linear Opmode")
@@ -46,7 +46,8 @@ public class OpMode extends LinearOpMode {
     private DcMotor RoataStangaSpate = null;
     private DcMotor RoataDreaptaFata = null;
     private DcMotor RoataDreaptaSpate = null;
-    private DcMotor Brat = null;
+    private Servo BratStanga = null;
+    private Servo BratDreapta = null;
     //private Servo PinionTrapa = null;
 
     //int cupa=0;
@@ -61,23 +62,24 @@ public class OpMode extends LinearOpMode {
         RoataStangaSpate = hardwareMap.get(DcMotor.class, "StangaSpate");
         RoataDreaptaFata = hardwareMap.get(DcMotor.class, "DreaptaFata");
         RoataDreaptaSpate = hardwareMap.get(DcMotor.class, "DreaptaSpate");
-        Brat = hardwareMap.get(DcMotor.class, "Brat");
+        BratDreapta = hardwareMap.get(Servo.class, "BratDreapta");
+        BratStanga = hardwareMap.get(Servo.class, "BratStanga");
         //PinionTrapa = hardwareMap.get(Servo.class, "PinionTrapa");
 
         RoataStangaFata.setDirection(DcMotor.Direction.FORWARD);
         RoataStangaSpate.setDirection(DcMotor.Direction.FORWARD);
-        RoataDreaptaFata.setDirection(DcMotor.Direction.REVERSE);
-        RoataDreaptaSpate.setDirection(DcMotor.Direction.REVERSE);
-        Brat.setDirection(DcMotor.Direction.FORWARD);
+        //RoataDreaptaFata.setDirection(DcMotor.Direction.REVERSE);
+        //RoataDreaptaSpate.setDirection(DcMotor.Direction.REVERSE);
+        RoataDreaptaFata.setDirection(DcMotor.Direction.FORWARD);
+        RoataDreaptaSpate.setDirection(DcMotor.Direction.FORWARD);
 
 
-        Brat.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         RoataStangaFata.setPower(0);
         RoataStangaSpate.setPower(0);
         RoataDreaptaFata.setPower(0);
         RoataDreaptaSpate.setPower(0);
-        Brat.setPower(0);
+
 
         waitForStart();
         runtime.reset();
@@ -86,20 +88,25 @@ public class OpMode extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-            double PutereStanga=gamepad1.left_stick_y;
-            double PutereDreapta=gamepad1.right_stick_y;
-            double PutereBrat=-gamepad2.right_stick_y;
-            float PozitieBrat=Brat.getCurrentPosition();
+            double RotireStanga=gamepad1.left_stick_y;
+            double MersFata=gamepad1.right_stick_x;
+            double MersStanga=gamepad1.right_stick_y;
 
 
-            RoataDreaptaFata.setPower(PutereStanga);
-            RoataDreaptaSpate.setPower(PutereStanga);
-            RoataStangaFata.setPower(PutereDreapta);
-            RoataStangaSpate.setPower(PutereDreapta);
-            PutereBrat=Range.clip(PutereBrat, -.1,.3);
-            Brat.setPower(PutereBrat);
+            RoataDreaptaFata.setPower(RotireStanga);
+            RoataDreaptaSpate.setPower(RotireStanga);
+            RoataStangaFata.setPower(RotireStanga);
+            RoataStangaSpate.setPower(RotireStanga);
 
+            RoataDreaptaFata.setPower(-MersFata);
+            RoataDreaptaSpate.setPower(-MersFata);
+            RoataStangaFata.setPower(MersFata);
+            RoataStangaSpate.setPower(MersFata);
 
+            RoataDreaptaFata.setPower(-MersStanga);
+            RoataDreaptaSpate.setPower(MersStanga);
+            RoataStangaFata.setPower(-MersStanga);
+            RoataStangaSpate.setPower(MersStanga);
 
 
 
@@ -133,17 +140,12 @@ public class OpMode extends LinearOpMode {
             }*/
 
 
-            while(gamepad2.a)
-            {
-                Brat.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
 
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Roti", "stanga (%.2f), dreapta (%.2f)", PutereStanga, PutereDreapta);
-            telemetry.addData("Brat", "putere (%.2f)", PutereBrat);
-            telemetry.addData("EncoderBrat",PozitieBrat);
+            //telemetry.addData("Roti", "stanga (%.2f), dreapta (%.2f)", PutereStanga, PutereDreapta);
+            //telemetry.addData("Brat", "putere (%.2f)", PutereBrat);
             telemetry.update();
         }
     }
