@@ -48,6 +48,7 @@ public class OpMode extends LinearOpMode {
     private DcMotor RoataDreaptaSpate = null;
     private Servo BratStanga = null;
     private Servo BratDreapta = null;
+    private DcMotor Lift =null;
     //private Servo PinionTrapa = null;
 
     //int cupa=0;
@@ -62,6 +63,7 @@ public class OpMode extends LinearOpMode {
         RoataStangaSpate = hardwareMap.get(DcMotor.class, "StangaSpate");
         RoataDreaptaFata = hardwareMap.get(DcMotor.class, "DreaptaFata");
         RoataDreaptaSpate = hardwareMap.get(DcMotor.class, "DreaptaSpate");
+        Lift = hardwareMap.get(DcMotor.class, "Lift");
         BratDreapta = hardwareMap.get(Servo.class, "BratDreapta");
         BratStanga = hardwareMap.get(Servo.class, "BratStanga");
         //PinionTrapa = hardwareMap.get(Servo.class, "PinionTrapa");
@@ -88,9 +90,21 @@ public class OpMode extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-            double RotireStanga=gamepad1.left_stick_y;
-            double MersFata=gamepad1.right_stick_x;
-            double MersStanga=gamepad1.right_stick_y;
+            double RotireStanga=gamepad1.left_stick_x;
+            double MersFata=gamepad1.right_stick_y;
+            double MersStanga=gamepad1.right_stick_x;
+
+            while(gamepad2.x){
+                BratStanga.setPosition(1);
+                BratDreapta.setPosition(1);
+            }
+
+            while(gamepad2.b){
+                BratStanga.setPosition(-1);
+                BratDreapta.setPosition(-1);
+            }
+
+            Lift.setPower(gamepad2.right_stick_y);
 
 
             RoataDreaptaFata.setPower(RotireStanga);
@@ -98,15 +112,15 @@ public class OpMode extends LinearOpMode {
             RoataStangaFata.setPower(RotireStanga);
             RoataStangaSpate.setPower(RotireStanga);
 
-            RoataDreaptaFata.setPower(-MersFata);
-            RoataDreaptaSpate.setPower(-MersFata);
-            RoataStangaFata.setPower(MersFata);
-            RoataStangaSpate.setPower(MersFata);
+            RoataDreaptaFata.setPower(MersFata);
+            RoataDreaptaSpate.setPower(MersFata);
+            RoataStangaFata.setPower(-MersFata);
+            RoataStangaSpate.setPower(-MersFata);
 
-            RoataDreaptaFata.setPower(-MersStanga);
-            RoataDreaptaSpate.setPower(MersStanga);
-            RoataStangaFata.setPower(-MersStanga);
-            RoataStangaSpate.setPower(MersStanga);
+            RoataDreaptaFata.setPower(MersStanga);
+            RoataDreaptaSpate.setPower(-MersStanga);
+            RoataStangaFata.setPower(MersStanga);
+            RoataStangaSpate.setPower(-MersStanga);
 
 
 
