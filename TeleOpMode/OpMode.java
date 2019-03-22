@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -49,6 +50,7 @@ public class OpMode extends LinearOpMode {
     private Servo BratStanga = null;
     private Servo BratDreapta = null;
     private DcMotor Lift =null;
+    private CRServo Marker=null;
     //private Servo PinionTrapa = null;
 
     //int cupa=0;
@@ -66,7 +68,7 @@ public class OpMode extends LinearOpMode {
         Lift = hardwareMap.get(DcMotor.class, "Lift");
         BratDreapta = hardwareMap.get(Servo.class, "BratDreapta");
         BratStanga = hardwareMap.get(Servo.class, "BratStanga");
-        //PinionTrapa = hardwareMap.get(Servo.class, "PinionTrapa");
+        Marker = hardwareMap.get(CRServo.class, "Marker");
 
         RoataStangaFata.setDirection(DcMotor.Direction.FORWARD);
         RoataStangaSpate.setDirection(DcMotor.Direction.FORWARD);
@@ -74,6 +76,7 @@ public class OpMode extends LinearOpMode {
         //RoataDreaptaSpate.setDirection(DcMotor.Direction.REVERSE);
         RoataDreaptaFata.setDirection(DcMotor.Direction.FORWARD);
         RoataDreaptaSpate.setDirection(DcMotor.Direction.FORWARD);
+        Lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -81,7 +84,8 @@ public class OpMode extends LinearOpMode {
         RoataStangaSpate.setPower(0);
         RoataDreaptaFata.setPower(0);
         RoataDreaptaSpate.setPower(0);
-
+        Lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
         runtime.reset();
@@ -93,15 +97,22 @@ public class OpMode extends LinearOpMode {
             double RotireStanga=gamepad1.left_stick_x;
             double MersFata=gamepad1.right_stick_y;
             double MersStanga=gamepad1.right_stick_x;
+            double PozitieLift=Lift.getCurrentPosition();
 
-            while(gamepad2.x){
-                BratStanga.setPosition(1);
-                BratDreapta.setPosition(1);
+            if(gamepad2.b){
+                Marker.setPower(.1);
+            }
+            if(gamepad2.x){
+                Marker.setPower(-.1);
+            }
+            while(gamepad2.y){
+                BratStanga.setPosition(.6);
+                BratDreapta.setPosition(-.6);
             }
 
-            while(gamepad2.b){
+            while(gamepad2.a){
                 BratStanga.setPosition(-1);
-                BratDreapta.setPosition(-1);
+                BratDreapta.setPosition(1);
             }
 
             Lift.setPower(gamepad2.right_stick_y);
@@ -149,7 +160,7 @@ public class OpMode extends LinearOpMode {
 
                 while(RoataDreapta.isBusy() && RoataStanga.isBusy())
                 {
-                    //Asteptam sa ajunga la pozitie
+                    //Asteptam sa ajunga la pozitie 39.900
                 }
             }*/
 
@@ -160,6 +171,7 @@ public class OpMode extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             //telemetry.addData("Roti", "stanga (%.2f), dreapta (%.2f)", PutereStanga, PutereDreapta);
             //telemetry.addData("Brat", "putere (%.2f)", PutereBrat);
+            telemetry.addData("Pozitie Lift", PozitieLift);
             telemetry.update();
         }
     }
